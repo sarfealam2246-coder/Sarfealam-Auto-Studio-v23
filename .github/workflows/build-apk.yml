@@ -58,14 +58,12 @@ jobs:
           for p in perms:
               if p not in text:
                   text = text.replace('<application', p + '\n    <application', 1)
-          queries_block = '''<queries>
-        <intent>
-            <action android:name="android.speech.RecognitionService" />
-        </intent>
-        <intent>
-            <action android:name="android.intent.action.TTS_SERVICE" />
-        </intent>
-    </queries>'''
+          queries_block = '\n'.join([
+              '<queries>',
+              '    <intent><action android:name="android.speech.RecognitionService" /></intent>',
+              '    <intent><action android:name="android.intent.action.TTS_SERVICE" /></intent>',
+              '</queries>',
+          ])
           if '<queries>' not in text:
               text = text.replace('<application', queries_block + '\n    <application', 1)
           manifest.write_text(text, encoding='utf-8')
